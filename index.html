@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT Portfolio & Brief</title>
-    <!-- Подключаем официальный скрипт Telegram Web App API -->
+    <!-- Официальный скрипт Telegram Web App API -->
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -17,7 +17,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -64,7 +64,6 @@
             font-weight: 600;
         }
 
-        /* Карточки услуг */
         .services-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -82,7 +81,7 @@
 
         .service-card.selected {
             border-color: var(--neon-green);
-            box-shadow: 0 0 12px rgba(0, 255, 135, 0.2);
+            box-shadow: 0 0 12px rgba(0, 255, 135, 0.3);
             background-color: #1f2937;
         }
 
@@ -98,7 +97,6 @@
             font-weight: 500;
         }
 
-        /* Форма брифа */
         .form-group {
             margin-bottom: 16px;
         }
@@ -120,7 +118,6 @@
             font-size: 14px;
             box-sizing: border-box;
             outline: none;
-            transition: border-color 0.2s;
         }
 
         input:focus, textarea:focus {
@@ -144,11 +141,6 @@
             cursor: pointer;
             margin-top: 24px;
             box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
-            transition: transform 0.1s;
-        }
-
-        .btn-submit:active {
-            transform: scale(0.98);
         }
     </style>
 </head>
@@ -178,7 +170,7 @@
 
     <div class="section-title">Заполнение брифа</div>
     <div class="form-group">
-        <label for="task">Что должен делать бот? (Краткое ТЗ)</label>
+        <label for="task">What should the bot do? (Brief spec)</label>
         <textarea id="task" placeholder="Например: Бот доставки еды, интеграция с сайтом..."></textarea>
     </div>
 
@@ -195,44 +187,35 @@
     <button class="btn-submit" onclick="sendDataToTelegram()">Отправить заявку</button>
 
     <script>
-        // Инициализируем Telegram Web App
+        // Инициализируем Telegram Web App API
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Расширяем приложение на весь экран
+        tg.expand(); 
 
-        // Подставляем имя пользователя из Telegram в шапку для эффекта "вау"
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('user-greeting').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
         }
 
         let selectedServiceType = "Не выбран";
 
+        // Функция выбора карточки (теперь снова будет работать и выделяться!)
         function selectService(card, serviceName, price) {
-            // Снимаем выделение со всех карточек
             document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-            // Выделяем текущую
             card.classList.add('selected');
-            selectedServiceType = `${serviceName} (${price})`;
+            selectedServiceType = serviceName + " (" + price + ")";
         }
 
+        // Самая надежная функция отправки
         function sendDataToTelegram() {
             const task = document.getElementById('task').value.trim();
             const budget = document.getElementById('budget').value.trim();
             const wishes = document.getElementById('wishes').value.trim() || "Нет";
-        
+
             if (!task || !budget) {
                 alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
                 return;
             }
-        
-            // Собираем данные в виде обычной понятной строки, чтобы не использовать stringify
-            const textData = `ТИП:${selectedServiceType}\nТЗ:${task}\nБЮДЖЕТ:${budget}\nПОЖЕЛАНИЯ:${wishes}`;
-        
-            // Отправляем чистый текст напрямую в Telegram
-            tg.sendData(textData);
-        }
 
-
-            // Формируем пакет данных в формате JSON
+            // Формируем пакет данных строго через стандартный большой объект JSON
             const data = {
                 service_type: selectedServiceType,
                 task_description: task,
@@ -240,7 +223,7 @@
                 wishes: wishes
             };
 
-            // Отправляем данные в Telegram-бота
+            // Отправляем данные в Telegram. Метод СТРОГО с заглавных букв!
             tg.sendData(JSON.stringify(data));
         }
     </script>
