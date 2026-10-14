@@ -109,17 +109,20 @@
             const task = document.getElementById('task').value.trim();
             const budget = document.getElementById('budget').value.trim();
             const wishes = document.getElementById('wishes').value.trim() || "Нет";
-
+        
             if (!task || !budget) {
                 alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
                 return;
             }
-
-            // Склеиваем всё в одну строчку через специальный разделитель «::»
-            const secretString = "WEB_ORDER::" + selectedServiceType + "::" + task + "::" + budget + "::" + wishes;
-
-            // Передаем эту строку боту. Telegram мгновенно закроет сайт и "напечатает" этот текст в чат!
-            tg.sendData(secretString);
+        
+            // Сайт сам собирает красивый чек с эмодзи, чтобы разгрузить Python
+            const formattedReceipt = `🗂 **Тип проекта:** ${selectedServiceType}\n` +
+                                     `📋 **Суть проекта (ТЗ):** ${task}\n` +
+                                     `💰 **Заявленный бюджет:** ${budget}\n` +
+                                     `📝 **Доп. пожелания:** ${wishes}`;
+        
+            // Передаем готовый текст боту. Telegram мгновенно закроет шторку!
+            tg.sendData(formattedReceipt);
         }
     </script>
 </body>
