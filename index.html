@@ -218,11 +218,19 @@
             const task = document.getElementById('task').value.trim();
             const budget = document.getElementById('budget').value.trim();
             const wishes = document.getElementById('wishes').value.trim() || "Нет";
-
+        
             if (!task || !budget) {
                 alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
                 return;
             }
+        
+            // Собираем данные в виде обычной понятной строки, чтобы не использовать stringify
+            const textData = `ТИП:${selectedServiceType}\nТЗ:${task}\nБЮДЖЕТ:${budget}\nПОЖЕЛАНИЯ:${wishes}`;
+        
+            // Отправляем чистый текст напрямую в Telegram
+            tg.sendData(textData);
+        }
+
 
             // Формируем пакет данных в формате JSON
             const data = {
