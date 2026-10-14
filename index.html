@@ -203,6 +203,20 @@
         .features-list li::marker {
             color: var(--accent-blue);
         }
+
+        .btn-close {
+            width: 100%;
+            background: linear-gradient(90deg, #00ff87 0%, #60efff 100%);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0,255,135,0.2);
+        }
     </style>
 </head>
 <body>
@@ -234,42 +248,40 @@
     <div class="section-title">Каталог архитектурных решений</div>
     <div class="services-list">
         
-        <!-- Решение 1 -->
+        <!-- Упрощенное описание 1 с новым ценником -->
         <div class="service-card">
             <div class="service-title-row">
                 <span class="service-title">🤖 Смарт Бот-визитка</span>
-                <span class="service-price">от 5 000 ₽</span>
+                <span class="service-price">от 2 999 ₽</span>
             </div>
             <ul class="features-list">
-                <li>Интерактивная навигация и дерево услуг</li>
-                <li>Автоматический захват лидов и контактов</li>
-                <li>Мгновенные Push-уведомления владельцу в ЛС</li>
-                <li>Интеграция медиа-каталогов и внешних ссылок</li>
+                <li>Интерактивное меню услуг и прайс</li>
+                <li>Автоматический сбор заявок клиентов</li>
+                <li>Мгновенные уведомления владельцу в ЛС</li>
             </ul>
         </div>
 
-        <!-- Решение 2 -->
+        <!-- Упрощенное описание 2 с новым ценником -->
         <div class="service-card">
             <div class="service-title-row">
                 <span class="service-title">📊 Интеграционный Бот с БД</span>
-                <span class="service-price">от 12 000 ₽</span>
+                <span class="service-price">от 6 999 ₽</span>
             </div>
             <ul class="features-list">
-                <li>Проектирование реляционных баз данных</li>
-                <li>Встроенные смарт-опросы и воронки брифования</li>
-                <li>Панель рассылок и управления клиентами одной кнопкой</li>
-                <li>Система защиты данных и логирования логов</li>
+                <li>Полноценное запоминание клиентов (БД)</li>
+                <li>Панель рассылок и админка одной кнопкой</li>
+                <li>Пошаговые умные опросы и анкеты</li>
             </ul>
         </div>
 
     </div>
 
+    <button class="btn-close" onclick="tg.close()">📋 Закрыть и рассчитать стоимость</button>
+
     <script>
-        // Инициализируем Web App просто для красивого разворачивания шторки на максимум
         const tg = window.Telegram.WebApp;
         tg.expand();
         
-        // Кастомизируем заголовок под имя клиента для интерактивности
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('user-title').innerText = tg.initDataUnsafe.user.first_name + " • Студия";
         }
