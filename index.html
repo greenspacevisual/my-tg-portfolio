@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Portfolio</title>
+    <title>IT Portfolio & Brief</title>
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -32,46 +32,62 @@
         h1 { font-size: 20px; margin: 0 0 8px 0; font-weight: 600; }
         .subtitle { font-size: 13px; color: #8b949e; margin: 0; }
         .section-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); margin: 24px 0 12px 0; font-weight: 600; }
-        .services-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-        .service-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; transition: all 0.25s ease; }
-        .service-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-        .service-price { font-size: 14px; color: var(--neon-green); font-weight: 500; margin-bottom: 12px; }
-        .btn-order { 
-            width: 100%; 
-            background: linear-gradient(90deg, #00ff87 0%, #60efff 100%); 
-            color: #000; border: none; border-radius: 8px; 
-            padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; 
-            box-shadow: 0 4px 10px rgba(0, 255, 135, 0.2);
-        }
+        .services-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .service-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.25s ease; }
+        .service-card.selected { border-color: var(--neon-green); box-shadow: 0 0 12px rgba(0, 255, 135, 0.3); background-color: #1f2937; }
+        .service-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .service-price { font-size: 13px; color: var(--neon-green); font-weight: 500; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 13px; color: #8b949e; margin-bottom: 6px; }
+        input, textarea { width: 100%; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: var(--text-color); font-size: 14px; box-sizing: border-box; outline: none; }
+        input:focus, textarea:focus { border-color: var(--accent-color); }
+        textarea { resize: vertical; min-height: 80px; }
+        .btn-submit { width: 100%; background: linear-gradient(90deg, #00ff87 0%, #60efff 100%); color: #000; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="avatar">👨‍💻</div>
-        <h1 id="user-greeting">Студия Разработки</h1>
-        <p class="subtitle">Создание современных Telegram ботов & Web Apps под ключ</p>
-    </div>
+    <div id="main-form">
+        <div class="header">
+            <div class="avatar">👨‍💻</div>
+            <h1 id="user-greeting">Студия Разработки</h1>
+            <p class="subtitle">Создание современных Telegram ботов & Web Apps под ключ</p>
+        </div>
 
-    <div class="section-title">Наши услуги и цены</div>
-    <div class="services-grid">
-        <div class="service-card">
-            <div class="service-title">🤖 Бот-визитка / Меню услуг</div>
-            <div class="service-price">от 5 000 руб</div>
-            <button class="btn-order" onclick="selectService('Бот-визитка')">Выбрать и заказать</button>
+        <div class="section-title">Выбор типа проекта</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="selectService(this, 'Бот-визитка / Автоматизация', 'от 5 000 руб')">
+                <div class="service-title">🤖 Бот-визитка / Menu услуг</div>
+                <div class="service-price">от 5 000 руб</div>
+            </div>
+            <div class="service-card" onclick="selectService(this, 'Сложный бот с БД / CRM', 'от 12 000 руб')">
+                <div class="service-title">📊 Бот с Базой Данных / CRM воронка</div>
+                <div class="service-price">от 12 000 руб</div>
+            </div>
+            <div class="service-card" onclick="selectService(this, 'Интерактивный Web App', 'от 20 000 руб')">
+                <div class="service-title">🌐 Современный Web App магазин / Сервис</div>
+                <div class="service-price">от 20 000 руб</div>
+            </div>
         </div>
-        <div class="service-card">
-            <div class="service-title">📊 Бот с Базой Данных / CRM воронка</div>
-            <div class="service-price">от 12 000 руб</div>
-            <button class="btn-order" onclick="selectService('Бот с Базой Данных')">Выбрать и заказать</button>
-        </div>
-        <div class="service-card">
-            <div class="service-title">🌐 Современный Web App магазин</div>
-            <div class="service-price">от 20 000 руб</div>
-            <button class="btn-order" onclick="selectService('Web App Магазин')">Выбрать и заказать</button>
-        </div>
-    </div>
 
+        <div class="section-title">Заполнение брифа</div>
+        <div class="form-group">
+            <label for="task">Что должен делать бот? (Краткое ТЗ)</label>
+            <textarea id="task" placeholder="Например: Бот доставки еды, интернет-магазин..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="budget">Ваш ориентировочный бюджет (руб / \$)</label>
+            <input type="text" id="budget" placeholder="Например: 15000 руб или 200\$">
+        </div>
+
+        <div class="form-group">
+            <label for="wishes">Дополнительные пожелания</label>
+            <textarea id="wishes" placeholder="Сроки, дизайн, интеграции или оставьте пустым..."></textarea>
+        </div>
+
+        <button class="btn-submit" id="submit-btn" onclick="simulateUserText()">Отправить заявку</button>
+    </div>
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand(); 
@@ -80,10 +96,30 @@
             document.getElementById('user-greeting').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
         }
 
-        // При клике на услугу приложение просто мгновенно закрывается, 
-        // не ломаясь об сетевые блокировки смартфона!
-        function selectService(name) {
-            tg.close();
+        let selectedServiceType = "Не выбран";
+
+        function selectService(card, serviceName, price) {
+            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedServiceType = serviceName + " (" + price + ")";
+        }
+
+        // НАША ХИТРОСТЬ: Симулируем отправку сообщения пользователем
+        function simulateUserText() {
+            const task = document.getElementById('task').value.trim();
+            const budget = document.getElementById('budget').value.trim();
+            const wishes = document.getElementById('wishes').value.trim() || "Нет";
+
+            if (!task || !budget) {
+                alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
+                return;
+            }
+
+            // Склеиваем всё в одну строчку через специальный разделитель «::»
+            const secretString = "WEB_ORDER::" + selectedServiceType + "::" + task + "::" + budget + "::" + wishes;
+
+            // Передаем эту строку боту. Telegram мгновенно закроет сайт и "напечатает" этот текст в чат!
+            tg.sendData(secretString);
         }
     </script>
 </body>
