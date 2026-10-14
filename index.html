@@ -86,8 +86,9 @@
             <textarea id="wishes" placeholder="Сроки, дизайн, интеграции или оставьте пустым..."></textarea>
         </div>
 
-        <button class="btn-submit" id="submit-btn" onclick="simulateUserText()">Отправить заявку</button>
+        <button class="btn-submit" id="submit-btn" onclick="sendViaDeepLink()">Подтвердить в Telegram</button>
     </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand(); 
@@ -101,28 +102,35 @@
         function selectService(card, serviceName, price) {
             document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
-            selectedServiceType = serviceName + " (" + price + ")";
+            selectedServiceType = serviceName;
         }
 
-        // НАША ХИТРОСТЬ: Симулируем отправку сообщения пользователем
-        function simulateUserText() {
+        // ЖЕЛЕЗОБЕТОННЫЙ МЕТОД: Перенос данных через безопасный Deep Link
+        function sendViaDeepLink() {
             const task = document.getElementById('task').value.trim();
             const budget = document.getElementById('budget').value.trim();
             const wishes = document.getElementById('wishes').value.trim() || "Нет";
-        
+
             if (!task || !budget) {
                 alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
                 return;
             }
-        
-            // Сайт сам собирает красивый чек с эмодзи, чтобы разгрузить Python
-            const formattedReceipt = `🗂 **Тип проекта:** ${selectedServiceType}\n` +
-                                     `📋 **Суть проекта (ТЗ):** ${task}\n` +
-                                     `💰 **Заявленный бюджет:** ${budget}\n` +
-                                     `📝 **Доп. пожелания:** ${wishes}`;
-        
-            // Передаем готовый текст боту. Telegram мгновенно закроет шторку!
-            tg.sendData(formattedReceipt);
+
+            // Формируем чистую строку данных
+            const orderData = `ТИП_${selectedServiceType}__ТЗ_${task}__БЮДЖЕТ_${budget}__ПОЖЕЛАНИЯ_${wishes}`;
+            
+            // Кодируем строку в безопасный Base64 и делаем её пригодной для ссылок Telegram
+            let encodedData = btoa(unescape(encodeURIComponent(orderData)))
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+\$/, '');
+
+            // Ссылка на твоего личного бота с параметром старта
+            const botUsername = "test_b230909_bot"; // ВНИМАНИЕ: Замени на точный ЮЗЕРНЕЙМ твоего бота без @
+            const deepLink = `https://t.me{botUsername}?start=${encodedData}`;
+
+            // Открываем ссылку. Telegram автоматически закроет Web App и перенаправит в чат!
+            tg.openTelegramLink(deepLink);
         }
     </script>
 </body>
