@@ -142,89 +142,187 @@
             margin-top: 24px;
             box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
         }
+
+        .btn-submit:disabled {
+            background: #30363d;
+            color: #8b949e;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        #success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: var(--neon-green);
+            margin-bottom: 16px;
+            animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-close {
+            width: 100%;
+            background-color: #21262d;
+            color: #c9d1d9;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="avatar">👨‍💻</div>
-        <h1 id="user-greeting">Студия Разработки</h1>
-        <p class="subtitle">Создание современных Telegram ботов & Web Apps под ключ</p>
-    </div>
-
-    <div class="section-title">Выбор типа проекта</div>
-    <div class="services-grid">
-        <div class="service-card" onclick="selectService(this, 'Бот-визитка / Автоматизация', 'от 5 000 руб')">
-            <div class="service-title">🤖 Бот-визитка / Меню услуг</div>
-            <div class="service-price">от 5 000 руб</div>
+    <!-- ЭКРАН С ФОРМОЙ БРИФА -->
+    <div id="main-form">
+        <div class="header">
+            <div class="avatar">👨‍💻</div>
+            <h1 id="user-greeting">Студия Разработки</h1>
+            <p class="subtitle">Создание современных Telegram ботов & Web Apps под ключ</p>
         </div>
-        <div class="service-card" onclick="selectService(this, 'Сложный бот с БД / CRM', 'от 12 000 руб')">
-            <div class="service-title">📊 Бот с Базой Данных / CRM воронка</div>
-            <div class="service-price">от 12 000 руб</div>
+
+        <div class="section-title">Выбор типа проекта</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="selectService(this, 'Бот-визитка / Автоматизация', 'от 5 000 руб')">
+                <div class="service-title">🤖 Бот-визитка / Menu услуг</div>
+                <div class="service-price">от 5 000 руб</div>
+            </div>
+            <div class="service-card" onclick="selectService(this, 'Сложный бот с БД / CRM', 'от 12 000 руб')">
+                <div class="service-title">📊 Бот с Базой Данных / CRM воронка</div>
+                <div class="service-price">от 12 000 руб</div>
+            </div>
+            <div class="service-card" onclick="selectService(this, 'Интерактивный Web App', 'от 20 000 руб')">
+                <div class="service-title">🌐 Современный Web App магазин / Сервис</div>
+                <div class="service-price">от 20 000 руб</div>
+            </div>
         </div>
-        <div class="service-card" onclick="selectService(this, 'Интерактивный Web App', 'от 20 000 руб')">
-            <div class="service-title">🌐 Современный Web App магазин / Сервис</div>
-            <div class="service-price">от 20 000 руб</div>
+
+        <div class="section-title">Заполнение брифа</div>
+        <div class="form-group">
+            <label for="task">Что должен делать бот? (Краткое ТЗ)</label>
+            <textarea id="task" placeholder="Например: Бот доставки еды, интеграция с сайтом..."></textarea>
         </div>
+
+        <div class="form-group">
+            <label for="budget">Ваш ориентировочный бюджет (руб / \$)</label>
+            <input type="text" id="budget" placeholder="Например: 15000 руб или 200\$">
+        </div>
+
+        <div class="form-group">
+            <label for="wishes">Дополнительные пожелания</label>
+            <textarea id="wishes" placeholder="Сроки, дизайн, интеграции или оставьте пустым..."></textarea>
+        </div>
+
+        <button class="btn-submit" id="submit-btn" onclick="sendDataDirectly()">Отправить заявку</button>
     </div>
 
-    <div class="section-title">Заполнение брифа</div>
-    <div class="form-group">
-        <label for="task">What should the bot do? (Brief spec)</label>
-        <textarea id="task" placeholder="Например: Бот доставки еды, интеграция с сайтом..."></textarea>
+    <!-- ЭКРАН ПОДТВЕРЖДЕНИЯ УСПЕХА -->
+    <div id="success-screen">
+        <div class="success-icon">✅</div>
+        <h2>Отправка произошла успешно!</h2>
+        <p class="subtitle" style="font-size: 15px; padding: 0 10px; line-height: 1.5;">
+            Спасибо за вашу заявку! Разработчик уже изучает отправленное тех. задание и свяжется с вами в самое ближайшее время.
+        </p>
+        <button class="btn-close" onclick="closeWebApp()">Выйти из приложения</button>
     </div>
-
-    <div class="form-group">
-        <label for="budget">Ваш ориентировочный бюджет (руб / \$)</label>
-        <input type="text" id="budget" placeholder="Например: 15000 руб или 200\$">
-    </div>
-
-    <div class="form-group">
-        <label for="wishes">Дополнительные пожелания</label>
-        <textarea id="wishes" placeholder="Сроки, дизайн, интеграции или оставьте пустым..."></textarea>
-    </div>
-
-    <button class="btn-submit" onclick="sendDataToTelegram()">Отправить заявку</button>
-
     <script>
-        // Инициализируем Telegram Web App API
+        // Инициализация Telegram Web App API
         const tg = window.Telegram.WebApp;
-        tg.expand(); 
+        tg.expand(); // Разворачиваем шторку на максимум
 
+        let userUsername = "скрыт";
+        let userFullName = "Пользователь Web App";
+
+        // Забираем данные профиля из Telegram
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('user-greeting').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
+            userFullName = tg.initDataUnsafe.user.first_name + (tg.initDataUnsafe.user.last_name ? " " + tg.initDataUnsafe.user.last_name : "");
+            if (tg.initDataUnsafe.user.username) {
+                userUsername = "@" + tg.initDataUnsafe.user.username;
+            }
         }
 
         let selectedServiceType = "Не выбран";
 
-        // Функция выбора карточки (теперь снова будет работать и выделяться!)
+        // Функция подсветки и выбора карточки
         function selectService(card, serviceName, price) {
             document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
             selectedServiceType = serviceName + " (" + price + ")";
         }
 
-        // Самая надежная функция отправки
-        function sendDataToTelegram() {
+        // Прямой HTTP запрос к API Telegram (в обход ограничений смартфона)
+        function sendDataDirectly() {
             const task = document.getElementById('task').value.trim();
             const budget = document.getElementById('budget').value.trim();
             const wishes = document.getElementById('wishes').value.trim() || "Нет";
 
             if (!task || !budget) {
-                alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
+                alert("Пожалуйста, заполните обязательные поля ТЗ и Бюджет!");
                 return;
             }
 
-            // Формируем пакет данных строго через стандартный большой объект JSON
-            const data = {
-                service_type: selectedServiceType,
-                task_description: task,
-                budget: budget,
-                wishes: wishes
-            };
+            const btn = document.getElementById('submit-btn');
+            btn.innerText = "Отправка...";
+            btn.disabled = true;
 
-            // Отправляем данные в Telegram. Метод СТРОГО с заглавных букв!
-            tg.sendData(JSON.stringify(data));
+            // Твои жестко прописанные ключи для автономной отправки
+            const botToken = "8662220187:AAHX4sq897XJozggGT2dCQk36VK5-FJ2r5E";
+            const adminId = "5908095736";
+
+            // Формируем чек лида для админа
+            const textMessage = `🔔 **ПОЛУЧЕН ВЕБ-ЛИД ИЗ WEB APP!** 🔔\n\n` +
+                                `👤 **Заказчик:** ${userFullName}\n` +
+                                `🌐 **Юзернейм:** ${userUsername}\n` +
+                                `🗂 **Тип проекта:** ${selectedServiceType}\n` +
+                                `📋 **Суть проекта (ТЗ):** ${task}\n` +
+                                `💰 **Бюджет клиента:** ${budget}\n` +
+                                `📝 **Доп. пожелания:** ${wishes}`;
+
+            const url = `https://telegram.org{botToken}/sendMessage`;
+
+            // Отправляем fetch запрос на сервер Telegram
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: adminId,
+                    text: textMessage,
+                    parse_mode: "Markdown"
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Прячем форму брифа и показываем экран успешного успеха
+                    document.getElementById('main-form').style.display = 'none';
+                    document.getElementById('success-screen').style.display = 'block';
+                } else {
+                    alert("Ошибка отправки API. Проверьте сеть или VPN.");
+                    btn.innerText = "Отправить заявку";
+                    btn.disabled = false;
+                }
+            })
+            .catch(error => {
+                alert("Сетевая ошибка! Убедитесь, что у вас включен VPN на телефоне.");
+                btn.innerText = "Отправить заявку";
+                btn.disabled = false;
+            });
+        }
+
+        // Функция мягкого закрытия мини-приложения
+        function closeWebApp() {
+            tg.close();
         }
     </script>
 </body>
