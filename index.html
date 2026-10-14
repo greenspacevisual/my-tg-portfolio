@@ -204,27 +204,28 @@
             color: var(--accent-blue);
         }
 
-        /* БЛОК СВЯЗИ */
-        .connect-container {
+        /* ОБНОВЛЕННЫЙ БЛОК СВЯЗИ */
+        .support-container {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 20px;
             margin-top: 10px;
             margin-bottom: 20px;
-            position: relative;
+            text-align: center;
         }
 
-        .terminal-log {
-            font-family: monospace;
-            font-size: 11px;
-            color: #6272a4;
+        .support-text {
+            font-size: 14px;
+            color: #96a1b0;
             margin-bottom: 16px;
             line-height: 1.5;
         }
 
-        .terminal-log span {
-            color: var(--accent-green);
+        .support-text a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 700;
         }
 
         .btn-connect {
@@ -318,12 +319,10 @@
         </div>
     </div>
 
-    <!-- БЛОК СВЯЗИ -->
-    <div class="section-title">Канал защищенной связи</div>
-    <div class="connect-container">
-        <div class="terminal-log">
-            &gt; STATUS: <span>READY_FOR_PROJECT</span><br>
-            &gt; HOST: IMERSED_CORE<br>
-            &gt; Инициализировать сессию для обсуждения ТЗ...
-        </div>
-        <a href="https://t.me" target="_blank" class="btn-connect">
+    <!-- ОБНОВЛЕННЫЙ БЛОК СВЯЗИ -->
+    <div class="section-title">Контакты</div>
+    <div class="support-container">
+        <p class="support-text">
+            По вопросам тех. поддержки или коммерческого сотрудничества обращаться: 
+            <a href="https://t.me/imersed" target="_blank">@imersed</a>
+        </p>
