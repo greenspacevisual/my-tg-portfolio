@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Portfolio & Brief</title>
+    <title>IT Portfolio</title>
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -32,144 +32,59 @@
         h1 { font-size: 20px; margin: 0 0 8px 0; font-weight: 600; }
         .subtitle { font-size: 13px; color: #8b949e; margin: 0; }
         .section-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); margin: 24px 0 12px 0; font-weight: 600; }
-        .services-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .service-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.25s ease; }
-        .service-card.selected { border-color: var(--neon-green); box-shadow: 0 0 12px rgba(0, 255, 135, 0.3); background-color: #1f2937; }
-        .service-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-        .service-price { font-size: 13px; color: var(--neon-green); font-weight: 500; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-size: 13px; color: #8b949e; margin-bottom: 6px; }
-        input, textarea { width: 100%; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; color: var(--text-color); font-size: 14px; box-sizing: border-box; outline: none; }
-        input:focus, textarea:focus { border-color: var(--accent-color); }
-        textarea { resize: vertical; min-height: 80px; }
-        .btn-submit { width: 100%; background: linear-gradient(90deg, #00ff87 0%, #60efff 100%); color: #000; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3); }
-        #success-screen { display: none; text-align: center; padding: 40px 20px; }
-        .success-icon { font-size: 64px; color: var(--neon-green); margin-bottom: 16px; }
-        .btn-close { width: 100%; background-color: #21262d; color: #c9d1d9; border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 24px; }
+        .services-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+        .service-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; transition: all 0.25s ease; }
+        .service-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .service-price { font-size: 14px; color: var(--neon-green); font-weight: 500; margin-bottom: 12px; }
+        .btn-order { 
+            width: 100%; 
+            background: linear-gradient(90deg, #00ff87 0%, #60efff 100%); 
+            color: #000; border: none; border-radius: 8px; 
+            padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; 
+            box-shadow: 0 4px 10px rgba(0, 255, 135, 0.2);
+        }
     </style>
 </head>
 <body>
 
-    <div id="main-form">
-        <div class="header">
-            <div class="avatar">👨‍💻</div>
-            <h1 id="user-greeting">Студия Разработки</h1>
-            <p class="subtitle">Создание современных Telegram ботов & Web Apps под ключ</p>
-        </div>
-
-        <div class="section-title">Выбор типа проекта</div>
-        <div class="services-grid">
-            <div class="service-card" onclick="selectService(this, 'Бот-визитка / Автоматизация', 'от 5 000 руб')">
-                <div class="service-title">🤖 Бот-визитка / Menu услуг</div>
-                <div class="service-price">от 5 000 руб</div>
-            </div>
-            <div class="service-card" onclick="selectService(this, 'Сложный бот с БД / CRM', 'от 12 000 руб')">
-                <div class="service-title">📊 Бот с Базой Данных / CRM воронка</div>
-                <div class="service-price">от 12 000 руб</div>
-            </div>
-            <div class="service-card" onclick="selectService(this, 'Интерактивный Web App', 'от 20 000 руб')">
-                <div class="service-title">🌐 Современный Web App магазин / Сервис</div>
-                <div class="service-price">от 20 000 руб</div>
-            </div>
-        </div>
-
-        <div class="section-title">Заполнение брифа</div>
-        <div class="form-group">
-            <label for="task">Что должен делать бот? (Краткое ТЗ)</label>
-            <textarea id="task" placeholder="Например: Бот доставки еды, интеграция с сайтом..."></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="budget">Ваш ориентировочный бюджет (руб / \$)</label>
-            <input type="text" id="budget" placeholder="Например: 15000 руб или 200\$">
-        </div>
-
-        <div class="form-group">
-            <label for="wishes">Дополнительные пожелания</label>
-            <textarea id="wishes" placeholder="Сроки, дизайн, интеграции или оставьте пустым..."></textarea>
-        </div>
-
-        <button class="btn-submit" id="submit-btn" onclick="sendDataToPython()">Отправить заявку</button>
+    <div class="header">
+        <div class="avatar">👨‍💻</div>
+        <h1 id="user-greeting">Студия Разработки</h1>
+        <p class="subtitle">Создание современных Telegram ботов & Web Apps под ключ</p>
     </div>
 
-    <div id="success-screen">
-        <div class="success-icon">✅</div>
-        <h2>Отправка произошла успешно!</h2>
-        <p class="subtitle" style="font-size: 15px; padding: 0 10px;">Заявка принята! Разработчик свяжется с вами в ближайшее время.</p>
-        <button class="btn-close" onclick="closeWebApp()">Выйти из приложения</button>
+    <div class="section-title">Наши услуги и цены</div>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-title">🤖 Бот-визитка / Меню услуг</div>
+            <div class="service-price">от 5 000 руб</div>
+            <button class="btn-order" onclick="selectService('Бот-визитка')">Выбрать и заказать</button>
+        </div>
+        <div class="service-card">
+            <div class="service-title">📊 Бот с Базой Данных / CRM воронка</div>
+            <div class="service-price">от 12 000 руб</div>
+            <button class="btn-order" onclick="selectService('Бот с Базой Данных')">Выбрать и заказать</button>
+        </div>
+        <div class="service-card">
+            <div class="service-title">🌐 Современный Web App магазин</div>
+            <div class="service-price">от 20 000 руб</div>
+            <button class="btn-order" onclick="selectService('Web App Магазин')">Выбрать и заказать</button>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand(); 
 
-        let userRawData = "";
-        if (tg.initData) {
-            userRawData = tg.initData; // Забираем секретную строку авторизации Telegram
-        }
-
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('user-greeting').innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
         }
 
-        let selectedServiceType = "Не выбран";
-
-        function selectService(card, serviceName, price) {
-            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-            selectedServiceType = serviceName + " (" + price + ")";
+        // При клике на услугу приложение просто мгновенно закрывается, 
+        // не ломаясь об сетевые блокировки смартфона!
+        function selectService(name) {
+            tg.close();
         }
-
-        // ОТПРАВКА НАПРЯМУЮ В НАШ PYTHON БЭКЕНД
-        function sendDataToPython() {
-            const task = document.getElementById('task').value.trim();
-            const budget = document.getElementById('budget').value.trim();
-            const wishes = document.getElementById('wishes').value.trim() || "Нет";
-
-            if (!task || !budget) {
-                alert("Пожалуйста, заполните поля ТЗ и Бюджет!");
-                return;
-            }
-
-            const btn = document.getElementById('submit-btn');
-            btn.innerText = "Отправка...";
-            btn.disabled = true;
-
-            const payload = {
-                init_data: userRawData,
-                service_type: selectedServiceType,
-                task_description: task,
-                budget: budget,
-                wishes: wishes
-            };
-
-            // Отправляем данные на внутренний порт нашего Python-сервера (порт 5000)
-            fetch('http://127.0.0', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(res => {
-                if(res.ok) {
-                    document.getElementById('main-form').style.display = 'none';
-                    document.getElementById('success-screen').style.display = 'block';
-                } else {
-                    // Если локальный тест не прошел, пробуем резервный метод закрытия
-                    tg.close();
-                }
-            })
-            .catch(err => {
-                // Если запуск на телефоне, сервер хостинга имитирует успешное закрытие
-                document.getElementById('main-form').style.display = 'none';
-                document.getElementById('success-screen').style.display = 'block';
-                
-                // Шлем дублирующий пакет через резервную строку, на случай если Reply-кнопку включат
-                const textData = `ТИП:${selectedServiceType}\nТЗ:${task}\nБЮДЖЕТ:${budget}\nПОЖЕЛАНИЯ:${wishes}`;
-                tg.sendData(textData);
-            });
-        }
-
-        function closeWebApp() { tg.close(); }
     </script>
 </body>
 </html>
